@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const uuid = require('uniqid'); 
 
 const PORT = process.env.PORT || 3001;
 
@@ -22,6 +23,7 @@ app.post('/api/notes', (req, res) => {
     fs.readFile('./db/db.json', 'utf8', (err, data) => {
         console.log(err);
         const notes = JSON.parse(data);
+        req.body['uuid'] = uuid();
         notes.push(req.body);
         fs.writeFile('./db/db.json', JSON.stringify(notes), (err) => {
             console.log(err);
